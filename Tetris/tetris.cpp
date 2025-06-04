@@ -228,6 +228,7 @@ void Tetromino::fallDown()
     pos = newPos;
     prevBase = relBase;
     relBase.second++;
+    undone = false;
 }
 
 void Tetromino::moveLeft()
@@ -242,6 +243,7 @@ void Tetromino::moveLeft()
     pos = newPos;
     prevBase = relBase;
     relBase.first--;
+    undone = false;
 }
 
 void Tetromino::moveRight()
@@ -256,6 +258,7 @@ void Tetromino::moveRight()
     pos = newPos;
     prevBase = relBase;
     relBase.first++;
+    undone = false;
 }
 
 void Tetromino::rotate()
@@ -283,6 +286,7 @@ void Tetromino::rotate()
     }
     prevPos = pos;
     pos = newPos;
+    undone = false;
 }
 
 bool Tetromino::undoMovement() {
