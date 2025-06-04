@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Borgo Live Score</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    #score { font-size: 2em; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Borgo Live Score</h1>
+  <div id="score">Loading...</div>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"
+    integrity="sha384-AOaPRygqJsDF9JDXoMZbdx8KQweoJSm64+TVDofbKR3e6im0mtjyChCrvCnBBRjH"
+    crossorigin="anonymous"></script>
+  <script>
+    const socket = io();
+    const scoreDiv = document.getElementById('score');
+
+    socket.on('scoreUpdate', data => {
+      scoreDiv.textContent = 'Score: ' + data.score;
+    });
+  </script>
+</body>
+</html>
