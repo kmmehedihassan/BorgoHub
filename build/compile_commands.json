@@ -1,0 +1,44 @@
+[
+{
+  "directory": "/Users/mehedi/Downloads/BorgoHub/build",
+  "command": "/usr/bin/c++  -I/Users/mehedi/Downloads/BorgoHub/Engine -I/Users/mehedi/Downloads/BorgoHub/games  -Wall -Wextra -std=gnu++17 -arch arm64 -o CMakeFiles/BorgoHub.dir/src/main.cpp.o -c /Users/mehedi/Downloads/BorgoHub/src/main.cpp",
+  "file": "/Users/mehedi/Downloads/BorgoHub/src/main.cpp",
+  "output": "CMakeFiles/BorgoHub.dir/src/main.cpp.o"
+},
+{
+  "directory": "/Users/mehedi/Downloads/BorgoHub/build",
+  "command": "/usr/bin/c++  -I/Users/mehedi/Downloads/BorgoHub/Engine -I/Users/mehedi/Downloads/BorgoHub/games  -Wall -Wextra -std=gnu++17 -arch arm64 -o CMakeFiles/BorgoHub.dir/games/PingPong/PingPong.cpp.o -c /Users/mehedi/Downloads/BorgoHub/games/PingPong/PingPong.cpp",
+  "file": "/Users/mehedi/Downloads/BorgoHub/games/PingPong/PingPong.cpp",
+  "output": "CMakeFiles/BorgoHub.dir/games/PingPong/PingPong.cpp.o"
+},
+{
+  "directory": "/Users/mehedi/Downloads/BorgoHub/build",
+  "command": "/usr/bin/c++  -I/Users/mehedi/Downloads/BorgoHub/Engine -I/Users/mehedi/Downloads/BorgoHub/games  -Wall -Wextra -std=gnu++17 -arch arm64 -o CMakeFiles/BorgoHub.dir/games/Snakes/Food.cpp.o -c /Users/mehedi/Downloads/BorgoHub/games/Snakes/Food.cpp",
+  "file": "/Users/mehedi/Downloads/BorgoHub/games/Snakes/Food.cpp",
+  "output": "CMakeFiles/BorgoHub.dir/games/Snakes/Food.cpp.o"
+},
+{
+  "directory": "/Users/mehedi/Downloads/BorgoHub/build",
+  "command": "/usr/bin/c++  -I/Users/mehedi/Downloads/BorgoHub/Engine -I/Users/mehedi/Downloads/BorgoHub/games  -Wall -Wextra -std=gnu++17 -arch arm64 -o CMakeFiles/BorgoHub.dir/games/Snakes/SnakeBody.cpp.o -c /Users/mehedi/Downloads/BorgoHub/games/Snakes/SnakeBody.cpp",
+  "file": "/Users/mehedi/Downloads/BorgoHub/games/Snakes/SnakeBody.cpp",
+  "output": "CMakeFiles/BorgoHub.dir/games/Snakes/SnakeBody.cpp.o"
+},
+{
+  "directory": "/Users/mehedi/Downloads/BorgoHub/build",
+  "command": "/usr/bin/c++  -I/Users/mehedi/Downloads/BorgoHub/Engine -I/Users/mehedi/Downloads/BorgoHub/games  -Wall -Wextra -std=gnu++17 -arch arm64 -o CMakeFiles/BorgoHub.dir/games/Snakes/Snakes.cpp.o -c /Users/mehedi/Downloads/BorgoHub/games/Snakes/Snakes.cpp",
+  "file": "/Users/mehedi/Downloads/BorgoHub/games/Snakes/Snakes.cpp",
+  "output": "CMakeFiles/BorgoHub.dir/games/Snakes/Snakes.cpp.o"
+},
+{
+  "directory": "/Users/mehedi/Downloads/BorgoHub/build",
+  "command": "/usr/bin/c++  -I/Users/mehedi/Downloads/BorgoHub/Engine -I/Users/mehedi/Downloads/BorgoHub/games  -Wall -Wextra -std=gnu++17 -arch arm64 -o CMakeFiles/BorgoHub.dir/games/Snakes/SnakesPlayer.cpp.o -c /Users/mehedi/Downloads/BorgoHub/games/Snakes/SnakesPlayer.cpp",
+  "file": "/Users/mehedi/Downloads/BorgoHub/games/Snakes/SnakesPlayer.cpp",
+  "output": "CMakeFiles/BorgoHub.dir/games/Snakes/SnakesPlayer.cpp.o"
+},
+{
+  "directory": "/Users/mehedi/Downloads/BorgoHub/build",
+  "command": "/usr/bin/c++  -I/Users/mehedi/Downloads/BorgoHub/Engine -I/Users/mehedi/Downloads/BorgoHub/games  -Wall -Wextra -std=gnu++17 -arch arm64 -o CMakeFiles/BorgoHub.dir/games/Tetris/tetris.cpp.o -c /Users/mehedi/Downloads/BorgoHub/games/Tetris/tetris.cpp",
+  "file": "/Users/mehedi/Downloads/BorgoHub/games/Tetris/tetris.cpp",
+  "output": "CMakeFiles/BorgoHub.dir/games/Tetris/tetris.cpp.o"
+}
+]

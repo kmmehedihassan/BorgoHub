@@ -1,6 +1,7 @@
 // // File: Snakes/SnakeBody.h
 #pragma once
-#include "../World.h"
+#include "World.h"
+#include "Engine.h"
 using namespace borgo;
 class SnakeBody
 {

@@ -1,144 +1,97 @@
-// PingPong.cpp
+// File: games/PingPong/PingPong.cpp
 #include "PingPong.h"
+#include <algorithm>     // std::min
 
+namespace borgo {
+
+/*-----------------------------------------------------------*
+ |  PingPong – private helpers                               |
+ *-----------------------------------------------------------*/
 void PingPong::handlePlayerCollision(bool isPlayerLeft)
 {
-    std::pair<int, int> pb = ball.getTopLeftPos();
+    auto pb = ball.getTopLeftPos();
     if (isPlayerLeft) {
-        std::pair<int, int> pl = playerL.getTopLeftPos();
+        auto pl = playerL.getTopLeftPos();
         switch (pb.second - pl.second) {
-        case -2:
-        case -1:
-        case 0:
-            ball.setAngle(Ball::Angle::_60d);
-            break;
-        case 1:
-            ball.setAngle(Ball::Angle::_45d);
-            break;
-        case 2:
-            ball.setAngle(Ball::Angle::_30d);
-            break;
-        case 3:
-            ball.setAngle(Ball::Angle::_0d);
-            break;
-        case 4:
-            ball.setAngle(Ball::Angle::_330d);
-            break;
-        case 5:
-            ball.setAngle(Ball::Angle::_315d);
-            break;
-        case 6:
-        case 7:
-        case 8:
-            ball.setAngle(Ball::Angle::_300d);
-            break;
+        case -2: case -1: case 0:  ball.setAngle(Ball::Angle::_60d);  break;
+        case  1:                   ball.setAngle(Ball::Angle::_45d);  break;
+        case  2:                   ball.setAngle(Ball::Angle::_30d);  break;
+        case  3:                   ball.setAngle(Ball::Angle::_0d);   break;
+        case  4:                   ball.setAngle(Ball::Angle::_330d); break;
+        case  5:                   ball.setAngle(Ball::Angle::_315d); break;
+        default:                   ball.setAngle(Ball::Angle::_300d); break;
         }
-    }
-    else {
-        std::pair<int, int> pr = playerR.getTopLeftPos();
+    } else {
+        auto pr = playerR.getTopLeftPos();
         switch (pb.second - pr.second) {
-        case -2:
-        case -1:
-        case 0:
-            ball.setAngle(Ball::Angle::_120d);
-            break;
-        case 1:
-            ball.setAngle(Ball::Angle::_135d);
-            break;
-        case 2:
-            ball.setAngle(Ball::Angle::_150d);
-            break;
-        case 3:
-            ball.setAngle(Ball::Angle::_180d);
-            break;
-        case 4:
-            ball.setAngle(Ball::Angle::_210d);
-            break;
-        case 5:
-            ball.setAngle(Ball::Angle::_225d);
-            break;
-        case 6:
-        case 7:
-        case 8:
-            ball.setAngle(Ball::Angle::_240d);
-            break;
+        case -2: case -1: case 0:  ball.setAngle(Ball::Angle::_120d); break;
+        case  1:                   ball.setAngle(Ball::Angle::_135d); break;
+        case  2:                   ball.setAngle(Ball::Angle::_150d); break;
+        case  3:                   ball.setAngle(Ball::Angle::_180d); break;
+        case  4:                   ball.setAngle(Ball::Angle::_210d); break;
+        case  5:                   ball.setAngle(Ball::Angle::_225d); break;
+        default:                   ball.setAngle(Ball::Angle::_240d); break;
         }
     }
 }
+
+
 
 void PingPong::handleWallCollision(bool isTopWall)
 {
-    std::pair<int, int> pb = ball.getTopLeftPos();
+    auto swap = [this](Ball::Angle a) { ball.setAngle(a); };
+
     if (isTopWall) {
         switch (ball.getAngle()) {
-        case Ball::Angle::_60d:
-            ball.setAngle(Ball::Angle::_300d);
-            break;
-        case Ball::Angle::_45d:
-            ball.setAngle(Ball::Angle::_315d);
-            break;
-        case Ball::Angle::_30d:
-            ball.setAngle(Ball::Angle::_330d);
-            break;
-        case Ball::Angle::_120d:
-            ball.setAngle(Ball::Angle::_240d);
-            break;
-        case Ball::Angle::_135d:
-            ball.setAngle(Ball::Angle::_225d);
-            break;
-        case Ball::Angle::_150d:
-            ball.setAngle(Ball::Angle::_210d);
-            break;
+        case Ball::Angle::_60d:  swap(Ball::Angle::_300d); break;
+        case Ball::Angle::_45d:  swap(Ball::Angle::_315d); break;
+        case Ball::Angle::_30d:  swap(Ball::Angle::_330d); break;
+        case Ball::Angle::_120d: swap(Ball::Angle::_240d); break;
+        case Ball::Angle::_135d: swap(Ball::Angle::_225d); break;
+        case Ball::Angle::_150d: swap(Ball::Angle::_210d); break;
+        default: break;
         }
-    }
-    else {
+    } else {
         switch (ball.getAngle()) {
-        case Ball::Angle::_300d:
-            ball.setAngle(Ball::Angle::_60d);
-            break;
-        case Ball::Angle::_315d:
-            ball.setAngle(Ball::Angle::_45d);
-            break;
-        case Ball::Angle::_330d:
-            ball.setAngle(Ball::Angle::_30d);
-            break;
-        case Ball::Angle::_240d:
-            ball.setAngle(Ball::Angle::_120d);
-            break;
-        case Ball::Angle::_225d:
-            ball.setAngle(Ball::Angle::_135d);
-            break;
-        case Ball::Angle::_210d:
-            ball.setAngle(Ball::Angle::_150d);
-            break;
+        case Ball::Angle::_300d: swap(Ball::Angle::_60d);  break;
+        case Ball::Angle::_315d: swap(Ball::Angle::_45d);  break;
+        case Ball::Angle::_330d: swap(Ball::Angle::_30d);  break;
+        case Ball::Angle::_240d: swap(Ball::Angle::_120d); break;
+        case Ball::Angle::_225d: swap(Ball::Angle::_135d); break;
+        case Ball::Angle::_210d: swap(Ball::Angle::_150d); break;
+        default: break;
         }
     }
 }
 
-PingPong::PingPong(World& world, ScoreBoard& scoreboard) : Engine(world, scoreboard), delay(0.03f), timer(0.0f),
-    playerL(1, this), playerR(0, this), ball(1, this), isIdle(0)
+/*-----------------------------------------------------------*
+ |  PingPong – ctor / trivial getters                        |
+ *-----------------------------------------------------------*/
+PingPong::PingPong(World& w, ScoreBoard& s)
+: Engine(w,s)
+, delay (0.03f)
+, timer (0.f)
+, isIdle(true)
+, bgcolor(sf::Color::Black)
+, playerL(true ,this)
+, playerR(false,this)
+, ball   (true ,this)
 {
-    bgcolor = sf::Color::Black;
-    width = world.getWidth();
-    height = world.getHeight();
+    width  = w.getWidth();
+    height = w.getHeight();
 }
 
-int PingPong::getWidth()
-{
-    return width;
-}
+int PingPong::getWidth()  const { return width;  }
+int PingPong::getHeight() const { return height; }
 
-int PingPong::getHeight()
-{
-    return height;
-}
-
+/*-----------------------------------------------------------*
+ |  Game loop                                                 |
+ *-----------------------------------------------------------*/
 void PingPong::start()
 {
     sf::Clock clock;
-    float dt;
     while (window.isOpen()) {
-        dt = clock.restart().asSeconds();
+        float dt = clock.restart().asSeconds();
         clear();
         input();
         update(dt);
@@ -148,7 +101,7 @@ void PingPong::start()
 
 void PingPong::clear()
 {
-    world.clearObject(ball.getBallPosition());
+    world.clearObject(ball   .getBallPosition());
     world.clearObject(playerL.getPlayerPosition());
     world.clearObject(playerR.getPlayerPosition());
     scoreboard.clearBoard();
@@ -156,27 +109,18 @@ void PingPong::clear()
 
 void PingPong::input()
 {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) window.close();
-        if (event.type == sf::Event::KeyPressed) {
-            isIdle = 0;
-            switch (event.key.code) {
-            case sf::Keyboard::Escape:
-                window.close();
-                break;
-            case sf::Keyboard::Up:
-                playerR.moveUp();
-                break;
-            case sf::Keyboard::Down:
-                playerR.moveDown();
-                break;
-            case sf::Keyboard::W:
-                playerL.moveUp();
-                break;
-            case sf::Keyboard::S:
-                playerL.moveDown();
-                break;
+    sf::Event e;
+    while (window.pollEvent(e)) {
+        if (e.type == sf::Event::Closed) { window.close(); return; }
+        if (e.type == sf::Event::KeyPressed) {
+            isIdle = false;
+            switch (e.key.code) {
+            case sf::Keyboard::Escape: window.close();           break;
+            case sf::Keyboard::Up:     playerR.moveUp();         break;
+            case sf::Keyboard::Down:   playerR.moveDown();       break;
+            case sf::Keyboard::W:      playerL.moveUp();         break;
+            case sf::Keyboard::S:      playerL.moveDown();       break;
+            default: break;
             }
         }
     }
@@ -185,359 +129,227 @@ void PingPong::input()
 void PingPong::update(float& dt)
 {
     timer += dt;
+
     if (!isIdle && timer > delay) {
         try {
             ball.move();
-        }
-        catch (Ball::Collision col) {
-            switch (col.collisionType) {
-            case Ball::Collision::CollisionType::LeftPlayer:
-                handlePlayerCollision(1);
-                break;
-            case Ball::Collision::CollisionType::RightPlayer:
-                handlePlayerCollision(0);
-                break;
-            case Ball::Collision::CollisionType::TopWall:
-                handleWallCollision(1);
-                break;
-            case Ball::Collision::CollisionType::BottomWall:
-                handleWallCollision(0);
-                break;
+        } catch (const Ball::Collision& c) {
+            switch (c.collisionType) {
+            case Ball::Collision::CollisionType::LeftPlayer:  handlePlayerCollision(true);  break;
+            case Ball::Collision::CollisionType::RightPlayer: handlePlayerCollision(false); break;
+            case Ball::Collision::CollisionType::TopWall:     handleWallCollision(true);    break;
+            case Ball::Collision::CollisionType::BottomWall:  handleWallCollision(false);   break;
             }
-        }
-        catch (Ball::GameOver game) {
-            if (game.gameWinner == Ball::GameOver::GameWinner::LeftPlayer) {
-                ball = Ball(1, this);
+        } catch (const Ball::GameOver& g) {
+            if (g.gameWinner == Ball::GameOver::GameWinner::LeftPlayer) {
+                ball = Ball(true ,this);
                 playerL.incrementScore();
-            }
-            else {
-                ball = Ball(0, this);
+            } else {
+                ball = Ball(false,this);
                 playerR.incrementScore();
             }
-            isIdle = 1;
-            playerL.resetPosition(1);
-            playerR.resetPosition(0);
+            isIdle = true;
+            playerL.resetPosition(true);
+            playerR.resetPosition(false);
         }
-
-        timer = 0;
+        timer = 0.f;
     }
+
+    /* push new frame to world/scoreboard */
     world.addObject(playerL.getPlayerColor());
     world.addObject(playerR.getPlayerColor());
-    world.addObject(ball.getBallColor());
+    world.addObject(ball   .getBallColor());
     world.update();
-    scoreboard.addScore(std::pair<std::string, int>("P1", playerL.getScore()));
-    scoreboard.addScore(std::pair<std::string, int>("P2", playerR.getScore()));
+
+    scoreboard.addScore({"P1", playerL.getScore()});
+    scoreboard.addScore({"P2", playerR.getScore()});
     scoreboard.update();
 }
 
 void PingPong::render()
 {
-    window.clear();
+    window.clear(bgcolor);
     window.draw(world);
     window.draw(scoreboard);
     window.display();
 }
 
-
-PingPongPlayer::PingPongPlayer(bool isPlayerLeft, PingPong* engine) : score(0)
+/*-----------------------------------------------------------*
+ |  PingPongPlayer implementation                            |
+ *-----------------------------------------------------------*/
+PingPongPlayer::PingPongPlayer(bool left, PingPong* e)
+: engine(e)
 {
-    this->engine = engine;
-    color = sf::Color::Cyan;
-    if (isPlayerLeft) {
-        for (int i = 0; i < 2; i++) {
-            for (int j = 12; j < 20; j++) {
-                position.insert(std::pair<int, int>(i, j));
-            }
-        }
-    }
-    else {
-        for (int i = 54; i < 56; i++) {
-            for (int j = 12; j < 20; j++) {
-                position.insert(std::pair<int, int>(i, j));
-            }
-        }
-    }
+    int x0 = left ? 0 : e->getWidth()-2;
+    for (int x = x0; x < x0+2; ++x)
+        for (int y = 12; y < 20; ++y)
+            position.insert({x,y});
 }
 
-int PingPongPlayer::getScore() const
+void PingPongPlayer::incrementScore()          { ++score; }
+int  PingPongPlayer::getScore()           const { return score; }
+auto PingPongPlayer::getPlayerPosition()  const -> std::set<std::pair<int,int>> { return position; }
+
+auto PingPongPlayer::getPlayerColor() const
+-> std::map<std::pair<int,int>,sf::Color>
 {
-    return score;
+    std::map<std::pair<int,int>,sf::Color> out;
+    for (auto p : position) out[p] = color;
+    return out;
 }
 
-std::set<std::pair<int, int>> PingPongPlayer::getPlayerPosition() const
+std::pair<int,int> PingPongPlayer::getTopLeftPos() const
 {
-    return position;
-}
-
-std::map<std::pair<int, int>, sf::Color> PingPongPlayer::getPlayerColor() const
-{
-    std::map<std::pair<int, int>, sf::Color> ret;
-    for (auto p : position) {
-        ret[p] = color;
-    }
-    return ret;
-}
-
-std::pair<int, int> PingPongPlayer::getTopLeftPos() const
-{
-    std::pair<int, int> ret(INT_MAX, INT_MAX);
-    for (auto p : position) {
-        ret = std::min(ret, p);
-    }
-    return ret;
+    return *std::min_element(position.begin(), position.end());
 }
 
 void PingPongPlayer::moveUp()
 {
+    for (auto& p : position)
+        if (p.second == 0) return;       // hit top
     std::set<std::pair<int, int>> newPos;
-    for (auto p : position) {
-        std::pair<int, int> np(p.first, p.second - 1);
-        if (np.second < 0) return;
-        newPos.insert(np);
-    }
-    position = newPos;
+for (auto p : position) { --p.second; newPos.insert(p); }
+position = newPos;
+
 }
 
 void PingPongPlayer::moveDown()
 {
+    for (auto& p : position)
+        if (p.second == engine->getHeight()-1) return; // hit bottom
     std::set<std::pair<int, int>> newPos;
+for (auto p : position) {
+    ++p.second;        // or --p.second, whatever your logic needs
+    newPos.insert(p);
+}
+position = newPos;
+}
+
+void PingPongPlayer::resetPosition(bool left) { *this = PingPongPlayer(left,engine); }
+
+/*-----------------------------------------------------------*
+ |  Ball implementation                                      |
+ *-----------------------------------------------------------*/
+Ball::Ball(bool fromLeft, PingPong* e)
+: engine(e)
+{
+    int x0 = fromLeft ? 2 : e->getWidth()-4;
+    for (int x = x0; x < x0+2; ++x)
+        for (int y = 14; y < 16; ++y)
+            position.insert({x,y});
+    setAngle(fromLeft ? Angle::_45d : Angle::_135d);
+}
+
+Ball::Angle Ball::getAngle() const { return angle; }
+
+void Ball::setAngle(Angle a)
+{
+    angle = a;
+    setDirection(a);
+}
+
+auto Ball::getBallPosition() const -> std::set<std::pair<int,int>> { return position; }
+
+auto Ball::getBallColor() const
+-> std::map<std::pair<int,int>,sf::Color>
+{
+    std::map<std::pair<int,int>,sf::Color> out;
+    for (auto p : position) out[p] = color;
+    return out;
+}
+
+std::pair<int,int> Ball::getTopLeftPos() const
+{
+    return *std::min_element(position.begin(), position.end());
+}
+
+/*--------- movement helpers ----------*/
+void Ball::moveLeft ()
+{
+    std::set<std::pair<int,int>> next;
     for (auto p : position) {
-        p.second++;
-        if (p.second >= engine->getHeight()) return;
-        newPos.insert(p);
+        auto np = std::make_pair(p.first-1, p.second);
+        if (np.first < 0) throw GameOver(GameOver::GameWinner::RightPlayer);
+        if (engine->playerL.getPlayerPosition().count(np) &&
+            getTopLeftPos().first - engine->playerL.getTopLeftPos().first == 2)
+            throw Collision(Collision::CollisionType::LeftPlayer);
+        next.insert(np);
     }
-    position = newPos;
-}
-
-void PingPongPlayer::resetPosition(bool isPlayerLeft)
-{
-    position.clear();
-    if (isPlayerLeft) {
-        for (int i = 0; i < 2; i++) {
-            for (int j = 12; j < 20; j++) {
-                position.insert(std::pair<int, int>(i, j));
-            }
-        }
-    }
-    else {
-        for (int i = 54; i < 56; i++) {
-            for (int j = 12; j < 20; j++) {
-                position.insert(std::pair<int, int>(i, j));
-            }
-        }
-    }
-}
-
-void PingPongPlayer::incrementScore()
-{
-    score++;
-}
-
-void Ball::moveLeft()
-{
-    std::set<std::pair<int, int>> newPos;
-    for (auto p : position) {
-        std::pair<int, int> np(p.first - 1, p.second);
-        for (auto pl : engine->playerL.getPlayerPosition()) {
-            if (pl == np && getTopLeftPos().first - engine->playerL.getTopLeftPos().first == 2) {
-                throw Collision(Collision::CollisionType::LeftPlayer);
-            }
-        }
-        if (np.first <= 0) throw GameOver(GameOver::GameWinner::RightPlayer);
-        newPos.insert(np);
-    }
-    position = newPos;
+    position.swap(next);
 }
 
 void Ball::moveRight()
 {
-    std::set<std::pair<int, int>> newPos;
+    std::set<std::pair<int,int>> next;
     for (auto p : position) {
-        std::pair<int, int> np(p.first + 1, p.second);
-        for (auto pr : engine->playerR.getPlayerPosition()) {
-            if (pr == np && engine->playerR.getTopLeftPos().first - getTopLeftPos().first == 2) {
-                throw Collision(Collision::CollisionType::RightPlayer);
-            }
-        }
-        if (np.first >= engine->getWidth() - 1) throw GameOver(GameOver::GameWinner::LeftPlayer);
-        newPos.insert(np);
+        auto np = std::make_pair(p.first+1, p.second);
+        if (np.first >= engine->getWidth())
+            throw GameOver(GameOver::GameWinner::LeftPlayer);
+        if (engine->playerR.getPlayerPosition().count(np) &&
+            engine->playerR.getTopLeftPos().first - getTopLeftPos().first == 2)
+            throw Collision(Collision::CollisionType::RightPlayer);
+        next.insert(np);
     }
-    position = newPos;
+    position.swap(next);
 }
 
-void Ball::moveUp()
+void Ball::moveUp  ()
 {
+    for (auto& p : position)
+        if (p.second == 0) throw Collision(Collision::CollisionType::TopWall);
     std::set<std::pair<int, int>> newPos;
-    for (auto p : position) {
-        std::pair<int, int> np(p.first, p.second - 1);
-        if (np.second < 0) throw Collision(Collision::CollisionType::TopWall);
-        newPos.insert(np);
-    }
-    position = newPos;
+for (auto p : position) { --p.second; newPos.insert(p); }
+position = newPos;
+
 }
 
 void Ball::moveDown()
 {
+    for (auto& p : position)
+        if (p.second == engine->getHeight()-1) throw Collision(Collision::CollisionType::BottomWall);
     std::set<std::pair<int, int>> newPos;
-    for (auto p : position) {
-        std::pair<int, int> np(p.first, p.second + 1);
-        if (np.second >= engine->getHeight()) throw Collision(Collision::CollisionType::BottomWall);
-        newPos.insert(np);
-    }
-    position = newPos;
+for (auto p : position) {
+    ++p.second;        // or --p.second, whatever your logic needs
+    newPos.insert(p);
+}
+position = newPos;
 }
 
 void Ball::setDirection(Angle a)
 {
     while (!direction.empty()) direction.pop();
+
+    auto push = [this](TransformDirection d,int n=1){ while(n--) direction.push(d); };
+
     switch (a) {
-    case _0d:
-        direction.push(TransformDirection::Right);
-        break;
-    case _30d:
-        direction.push(TransformDirection::Right);
-        direction.push(TransformDirection::Right);
-        direction.push(TransformDirection::Top);
-        break;
-    case _45d:
-        direction.push(TransformDirection::Right);
-        direction.push(TransformDirection::Top);
-        break;
-    case _60d:
-        direction.push(TransformDirection::Right);
-        direction.push(TransformDirection::Top);
-        direction.push(TransformDirection::Top);
-        break;
-    case _120d:
-        direction.push(TransformDirection::Left);
-        direction.push(TransformDirection::Top);
-        direction.push(TransformDirection::Top);
-        break;
-    case _135d:
-        direction.push(TransformDirection::Left);
-        direction.push(TransformDirection::Top);
-        break;
-    case _150d:
-        direction.push(TransformDirection::Left);
-        direction.push(TransformDirection::Left);
-        direction.push(TransformDirection::Top);
-        break;
-    case _180d:
-        direction.push(TransformDirection::Left);
-        break;
-    case _210d:
-        direction.push(TransformDirection::Left);
-        direction.push(TransformDirection::Left);
-        direction.push(TransformDirection::Bottom);
-        break;
-    case _225d:
-        direction.push(TransformDirection::Left);
-        direction.push(TransformDirection::Bottom);
-        break;
-    case _240d:
-        direction.push(TransformDirection::Left);
-        direction.push(TransformDirection::Bottom);
-        direction.push(TransformDirection::Bottom);
-        break;
-    case _300d:
-        direction.push(TransformDirection::Right);
-        direction.push(TransformDirection::Bottom);
-        direction.push(TransformDirection::Bottom);
-        break;
-    case _315d:
-        direction.push(TransformDirection::Right);
-        direction.push(TransformDirection::Bottom);
-        break;
-    case _330d:
-        direction.push(TransformDirection::Right);
-        direction.push(TransformDirection::Right);
-        direction.push(TransformDirection::Bottom);
-        break;
+    case Angle::_0d:   push(Right);                              break;
+    case Angle::_30d:  push(Right,2); push(Top);                 break;
+    case Angle::_45d:  push(Right);   push(Top);                 break;
+    case Angle::_60d:  push(Right);   push(Top,2);               break;
+    case Angle::_120d: push(Left);    push(Top,2);               break;
+    case Angle::_135d: push(Left);    push(Top);                 break;
+    case Angle::_150d: push(Left,2);  push(Top);                 break;
+    case Angle::_180d: push(Left);                               break;
+    case Angle::_210d: push(Left,2);  push(Bottom);              break;
+    case Angle::_225d: push(Left);    push(Bottom);              break;
+    case Angle::_240d: push(Left);    push(Bottom,2);            break;
+    case Angle::_300d: push(Right);   push(Bottom,2);            break;
+    case Angle::_315d: push(Right);   push(Bottom);              break;
+    case Angle::_330d: push(Right,2); push(Bottom);              break;
     }
-}
-
-Ball::Ball(bool isPlayerLeft, PingPong* engine)
-{
-    this->engine = engine;
-    color = sf::Color::Yellow;
-    if (isPlayerLeft) {
-        for (int i = 2; i < 4; i++) {
-            for (int j = 14; j < 16; j++) {
-                position.insert(std::pair<int, int>(i, j));
-            }
-        }
-        setAngle(Angle::_45d);
-
-    }
-    else {
-        for (int i = 52; i < 54; i++) {
-            for (int j = 14; j < 16; j++) {
-                position.insert(std::pair<int, int>(i, j));
-            }
-        }
-        setAngle(Angle::_135d);
-    }
-}
-
-Ball::Angle Ball::getAngle()
-{
-    return angle;
-}
-
-void Ball::setAngle(Angle a)
-{
-    this->angle = a;
-    setDirection(a);
-}
-
-std::set<std::pair<int, int>> Ball::getBallPosition() const
-{
-    return position;
-}
-
-std::map<std::pair<int, int>, sf::Color> Ball::getBallColor() const
-{
-    std::map<std::pair<int, int>, sf::Color> ret;
-    for (auto p : position) {
-        ret[p] = color;
-    }
-    return ret;
-}
-
-std::pair<int, int> Ball::getTopLeftPos() const
-{
-    std::pair<int, int> ret(INT_MAX, INT_MAX);
-    for (auto p : position) {
-        ret = std::min(ret, p);
-    }
-    return ret;
 }
 
 void Ball::move()
 {
-    TransformDirection dir = direction.front();
-    switch (dir) {
-    case TransformDirection::Left:
-        moveLeft();
-        break;
-    case TransformDirection::Right:
-        moveRight();
-        break;
-    case TransformDirection::Top:
-        moveUp();
-        break;
-    case TransformDirection::Bottom:
-        moveDown();
-        break;
+    TransformDirection d = direction.front();
+    switch (d) {
+    case Left:   moveLeft();  break;
+    case Right:  moveRight(); break;
+    case Top:    moveUp();    break;
+    case Bottom: moveDown();  break;
     }
     direction.pop();
-    direction.push(dir);
+    direction.push(d);  // circular queue
 }
 
-Ball::GameOver::GameOver(GameWinner winner) : gameWinner(winner)
-{
-}
-
-Ball::Collision::Collision(CollisionType type) : collisionType(type)
-{
-}
+} // namespace borgo

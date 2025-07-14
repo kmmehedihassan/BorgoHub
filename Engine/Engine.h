@@ -1,12 +1,18 @@
-// File: Engine/Engine.h
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "World.h"
 #include "ScoreBoard.h"
 
+
+enum TransformDirection {
+    Left,
+    Right,
+    Top,
+    Bottom
+};
+
 namespace borgo {
 
-// Stub: base class for all games, provides a window
 class Engine {
 protected:
     sf::RenderWindow window;
@@ -15,27 +21,40 @@ protected:
 
 public:
     Engine(World& w, ScoreBoard& s)
-        : window(sf::VideoMode(
-            static_cast<unsigned>(w.getWidth() * w.getBlockSize()),
-            static_cast<unsigned>(w.getHeight() * w.getBlockSize())), "BorgoHub"),
-          world(w), scoreboard(s) {}
+      : world(w)
+      , scoreboard(s)
+      , window(
+          sf::VideoMode(
+            static_cast<unsigned>(w.getWidth()  * w.getBlockSize()),
+            static_cast<unsigned>(w.getHeight() * w.getBlockSize())
+          ),
+          "BorgoHub"
+        )
+    {}
 
     Engine(float blockSize, unsigned width, unsigned height, sf::Vector2f position)
-        : window(sf::VideoMode(
-            static_cast<unsigned>(width * blockSize),
-            static_cast<unsigned>(height * blockSize)), "BorgoHub"),
-          world(*(new World(blockSize, width, height, position))),
-          scoreboard(*(new ScoreBoard(blockSize, width, height, position))) {}
+      : world(*(new World(blockSize, width, height, position)))
+      , scoreboard(*(new ScoreBoard(blockSize, width, height, position)))
+      , window(
+          sf::VideoMode(
+            static_cast<unsigned>(width  * blockSize),
+            static_cast<unsigned>(height * blockSize)
+          ),
+          "BorgoHub"
+        )
+    {}
 
-    virtual ~Engine() {}
+    virtual ~Engine() = default;
 
-    bool isOpen() const { return window.isOpen(); }
-    void close() { window.close(); }
-    void clear() { window.clear(); }
-    void display() { window.display(); }
+    bool isOpen()  const { return window.isOpen(); }
+    void close()         { window.close(); }
+    void clear()         { window.clear(); }
+    void display()       { window.display(); }
 
-    // Allow derived games to access the window directly
-    using sf::RenderWindow::draw;
+    // Draw any SFML drawable
+    void draw(const sf::Drawable& d, const sf::RenderStates& s = sf::RenderStates::Default) {
+        window.draw(d, s);
+    }
 };
 
 } // namespace borgo

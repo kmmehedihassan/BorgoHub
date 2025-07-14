@@ -1,44 +1,36 @@
-// Tetris/tetris.h
+// File: games/Tetris/tetris.h
 #pragma once
-#include "../Engine.h"
+#include "../Engine/Engine.h"
 #include <iostream>
-using namespace borgo;
+#include <set>
+#include <map>
+#include <string>
+
+namespace borgo {
 
 class Tetris;
 
 class Tetromino {
-    uint16_t tetrominoMap[7] = {
-        0xF0,  // I
-        0x644, // J
-        0x622, // L
-        0x27,  // T
-        0xC60, // Z
-        0x360, // S
-        0x660  // O
-    };
-    sf::Color tetrominoColor[7] = {
-        sf::Color::Cyan,
-        sf::Color::Blue,
-        sf::Color::Green,
-        sf::Color::Magenta,
-        sf::Color::Red,
-        sf::Color::Yellow,
+    uint16_t tetrominoMap[7]   = { 0xF0,0x644,0x622,0x27,0xC60,0x360,0x660 };
+    sf::Color tetrominoColor[7]= {
+        sf::Color::Cyan, sf::Color::Blue,  sf::Color::Green,
+        sf::Color::Magenta, sf::Color::Red, sf::Color::Yellow,
         sf::Color::White
     };
     int rotation;
-    bool undone; /// allows undo only once
-    std::pair<int, int> relBase; /// base point for movement and rotation
-    std::pair<int, int> prevBase; /// Previous base point
-    std::set<std::pair<int, int>> pos;
-    std::set<std::pair<int, int>> prevPos;
+    bool undone;
+    std::pair<int,int> relBase, prevBase;
+    std::set<std::pair<int,int>> pos, prevPos;
     sf::Color color;
     Tetris* engine;
 
 public:
     Tetromino(int index, Tetris* engine);
     Tetromino(int index, int rotation, Tetris* engine);
-    std::set<std::pair<int, int>> getPosition() const;
-    std::map<std::pair<int, int>, sf::Color> getColors();
+
+    std::set<std::pair<int,int>> getPosition() const;
+    std::map<std::pair<int,int>, sf::Color> getColors() const;
+
     void fallDown();
     void moveLeft();
     void moveRight();
@@ -52,37 +44,38 @@ class TetrisPlayer {
     sf::Time time;
 
 public:
-    TetrisPlayer(std::string name);
+    TetrisPlayer(const std::string& name);
     std::string getName() const;
     int getScore() const;
     sf::Time getTime() const;
     void setScore(int score);
-    void setTime(sf::Time);
-    void incrementTime(float& dtAsSeconds);
+    void setTime(sf::Time t);
+    void incrementTime(float dtAsSeconds);
 };
 
-class Tetris :
-    public Engine
-{
+class Tetris : public Engine {
     TetrisPlayer player;
-    Tetromino tetromino;
-    float timer;
-    float delay;
+    Tetromino    tetromino;
+    float        timer;
+    float        delay;
+
 public:
-    Tetris(World&, ScoreBoard&);
-    Tetris(float, unsigned int, unsigned int, sf::Vector2f&);
+    Tetris(World& world, ScoreBoard& scoreboard);
+    Tetris(float bs, unsigned w, unsigned h, sf::Vector2f pos);
+
     void start();
     void clear();
     void input();
-    void update(float&);
+    void update(float dt);
     void render();
 
-    bool checkCollision();
-    bool checkCollision(const std::pair<int,int>& p);
+    bool checkCollision() const;
+    bool checkCollision(const std::pair<int,int>& p) const;
     void checkCompletedLines();
 
-    int getWidth() const;
+    int getWidth()  const;
     int getHeight() const;
-    std::set<std::pair<int, int>> getPlayerPosition();
+    std::set<std::pair<int,int>> getPlayerPosition() const;
 };
 
+} // namespace borgo

@@ -1,0 +1,3 @@
+/Users/mehedi/Downloads/BorgoHub/build/CMakeFiles/BorgoHub.dir
+/Users/mehedi/Downloads/BorgoHub/build/CMakeFiles/edit_cache.dir
+/Users/mehedi/Downloads/BorgoHub/build/CMakeFiles/rebuild_cache.dir

@@ -1,7 +1,8 @@
 // File: Tetris/tetris.cpp
-#include "Tetris.h"
+#include "tetris.h"
 
-Tetris::Tetris(World& world, ScoreBoard& scoreboard)
+namespace borgo{
+    Tetris::Tetris(World& world, ScoreBoard& scoreboard)
  : Engine(world, scoreboard), player("Sami"), tetromino(rand()%7, this), timer(0.0f), delay(0.6f)
 {
     srand(time(NULL));
@@ -13,7 +14,7 @@ Tetris::Tetris(World& world, ScoreBoard& scoreboard)
     scoreboard.setTextColor(sf::Color::Black);
 }
 
-Tetris::Tetris(float bSize, unsigned int width, unsigned int height, sf::Vector2f& pos)
+Tetris::Tetris(float bSize, unsigned int width, unsigned int height, sf::Vector2f pos)
  : Engine(bSize, width, height, pos), player("sami"), tetromino(rand()%7, this), timer(0.0f), delay(0.6f)
 {
     srand(time(NULL));
@@ -52,13 +53,13 @@ void Tetris::input()
                 else if(ev.key.code == sf::Keyboard::Escape) window.close();
             }
         }
-    } catch(Block_base::OutOfBound) {
+    } catch(...) {
         std::cout<<"Out of Bound Error"<<std::endl;
     }
 
 }
 
-void Tetris::update(float& dt)
+void Tetris::update(float dt)
 {
     timer += dt;
     player.incrementTime(dt);
@@ -101,7 +102,7 @@ void Tetris::render()
     window.display();
 }
 
-bool Tetris::checkCollision()
+bool Tetris::checkCollision() const
 {
     for(auto p:tetromino.getPosition()){
         if(p.first<0||p.first>=world.getWidth()||p.second<0||p.second>=world.getHeight()) return false;
@@ -110,7 +111,7 @@ bool Tetris::checkCollision()
     return true;
 }
 
-bool Tetris::checkCollision(const std::pair<int,int>& p)
+bool Tetris::checkCollision(const std::pair<int,int>& p) const
 {
     if(p.first<0||p.first>=world.getWidth()||p.second<0||p.second>=world.getHeight()) return false;
     std::pair<int,int> pos = p;
@@ -168,7 +169,7 @@ int Tetris::getHeight() const
     return world.getHeight();
 }
 
-std::set<std::pair<int, int>> Tetris::getPlayerPosition()
+std::set<std::pair<int, int>> Tetris::getPlayerPosition() const
 {
     return tetromino.getPosition();
 }
@@ -209,7 +210,7 @@ std::set<std::pair<int, int>> Tetromino::getPosition() const
     return this->pos;
 }
 
-std::map<std::pair<int, int>, sf::Color> Tetromino::getColors()
+std::map<std::pair<int, int>, sf::Color> Tetromino::getColors() const
 {
     std::map<std::pair<int, int>, sf::Color> ret;
     for(auto p : pos) {
@@ -294,7 +295,7 @@ bool Tetromino::undoMovement() {
     return true;
 }
 
-TetrisPlayer::TetrisPlayer(std::string name) : score(0), time()
+TetrisPlayer::TetrisPlayer(const std::string& name) : score(0), time()
 {
     this->name = name;
 }
@@ -324,7 +325,10 @@ void TetrisPlayer::setTime(sf::Time time)
     this->time = time;
 }
 
-void TetrisPlayer::incrementTime(float& dtAsSeconds)
+void TetrisPlayer::incrementTime(float dtAsSeconds)
 {
     time += sf::seconds(dtAsSeconds);
 }
+
+}
+
