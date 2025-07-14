@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build Borgo",
+      "type": "shell",
+      "command": "clang++",
+      "args": [
+        "-std=c++17",
+        "-I", "${workspaceFolder}",
+        "-I", "/opt/homebrew/Cellar/sfml/2.5.1_1/include",
+        // list all your source files here:
+        "${workspaceFolder}/main.cpp",
+        "${workspaceFolder}/Snakes/Snakes.cpp",
+        "${workspaceFolder}/Snakes/SnakeBody.cpp",
+        "${workspaceFolder}/Snakes/Food.cpp",
+        "${workspaceFolder}/PingPong/PingPong.cpp",
+        "${workspaceFolder}/Tetris/tetris.cpp",
+        // link flags:
+        "-L", "/opt/homebrew/Cellar/sfml/2.5.1_1/lib",
+        "-lsfml-graphics",
+        "-lsfml-window",
+        "-lsfml-system",
+        // output binary
+        "-o", "${workspaceFolder}/build/Borgo"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
+// , --- IGNORE ---
