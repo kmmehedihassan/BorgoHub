@@ -2,8 +2,7 @@
 
 BorgoHub is a browser-based arcade hub featuring classic mini-games in a single responsive web experience. It is a web adaptation of the original BorgoHub concept, rebuilt for smooth deployment as a static site.
 
-## Live Demo
-**Play now:** `https://borgohub.netlify.app`
+## Live Demo**Play now:** [borgohub.netlify.app](https://borgohub.netlify.app)
 
 ## Features
 - Snakes
